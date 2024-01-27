@@ -23,8 +23,8 @@ class IntervalTree:
         high: upper bound of the interval
         val: value to map to the interval
     """
-    def add(self, low, high, val):
-        self.root = self.__add(self.root, low, high, val)
+    def addRecursive(self, low, high, val):
+        self.root = self.__addRecursive(self.root, low, high, val)
         self.nodeCount += 1
     
     """
@@ -37,16 +37,48 @@ class IntervalTree:
     Returns:
         node: the current node
     """
-    def __add(self, node, low, high, val):
+    def __addRecursive(self, node, low, high, val):
         if node is None:
             return IntervalTreeNode(val, low, high)
         if low < node.getLow():
-            node.setLeft(self.__add(node.getLeft(), low, high, val))
+            node.setLeft(self.__addRecursive(node.getLeft(), low, high, val))
         else:
-            node.setRight(self.__add(node.getRight(), low, high, val))
+            node.setRight(self.__addRecursive(node.getRight(), low, high, val))
         node.setMaxEnd(max(node.getMaxEnd(), high))
-        return node
+        return node 
 
+    """
+    Non-recursive add method that I made to speed up the program. 
+    Args:
+        low: the lower bound of the interval
+        high: the upper bound of the interval
+        val: the value to map to the interval
+    Returns:
+        node: the current node
+    """
+    def add(self, low, high, val):
+        self.nodeCount += 1
+        node = self.root 
+        if self.root is None:
+            self.root = IntervalTreeNode(val ,low, high)
+            return self.root
+        while True:
+            node.setMaxEnd(max(node.getMaxEnd(), high))
+            left = node.getLeft()
+            right = node.getRight()
+            if low < node.getLow():
+                if left:
+                    node = left 
+                else:
+                    node.setLeft(IntervalTreeNode(val, low, high))
+                    return node.getLeft()
+            else:
+                if right:
+                    node = right
+                else:
+                    node.setRight(IntervalTreeNode(val, low, high))
+                    return node.getRight()
+        
     """
     Method to get list of nodes who's intervals contain a given point.
     Args:
@@ -54,9 +86,9 @@ class IntervalTree:
     Returns:
         self.__get(self.root, point, result): the list of nodes who's intervals contain a given point
     """
-    def get(self, point):
+    def getRecursive(self, point):
         result = []
-        return self.__get(self.root, point, result)
+        return self.__getRecursive(self.root, point, result)
 
     """
     Recursive helper method for the get method.
@@ -67,16 +99,40 @@ class IntervalTree:
     Returns:
         result: the resulting list
     """
-    def __get(self, node, point, result):
+    def __getRecursive(self, node, point, result):
         if node is None:
             return result
         if point >= node.getLow() and point <= node.getMaxEnd(): 
             if point < node.getHigh():
                 result.append(node.getValue())
-            result = self.__get(node.getLeft(), point, result)
-            result = self.__get(node.getRight(), point, result)
+            result = self.__getRecursive(node.getLeft(), point, result)
+            result = self.__getRecursive(node.getRight(), point, result)
         return result
     
+    """
+    Non-recursive method to get list of nodes who's intervals contain a given point that I made to speed up the program.
+    Args:
+        point: the point to search for
+    Returns:
+        result: the list of nodes who's intervals contain a given point
+    """
+    def get(self, point):
+        result = []
+        stack = []
+        current = self.root
+        while current or stack:
+            while current:
+                if point >= current.getLow() and point <= current.getMaxEnd():
+                    if point < current.getHigh():
+                        result.append(current.getValue())
+                    stack.append(current.getRight())
+                    current = current.getLeft()
+                else:
+                    current = None
+            if stack:
+                current = stack.pop()
+        return result
+
     """
     Method to return a list containing all of the nodes contained in the tree.
     Returns:
@@ -109,3 +165,4 @@ class IntervalTree:
     """
     def getNodeCount(self):
         return self.nodeCount
+        
