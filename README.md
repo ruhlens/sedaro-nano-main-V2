@@ -8,7 +8,7 @@ This implementation of Sedaro Nano shows the versatility of data storage solutio
 UPDATES 2/19/2024 </br>
 Added Flask API to send data to frontend. </br>
 Restructured File directory to reflect two separate programs: app and backend. </br>
-Rewrote docker files and docker compose to facilitate two separate containers. </br>
+Rewrote docker files and docker yml to facilitate two separate containers. </br>
 
 DIRECTIONS </br>
 to run: </br>
