@@ -10,6 +10,6 @@ RUN pip install --upgrade pip \
     pip install --upgrade setuptools \
     pip install -r requirements.txt 
 
-EXPOSE 5001
+EXPOSE 5000
 
 CMD ["python", "application.py"]
