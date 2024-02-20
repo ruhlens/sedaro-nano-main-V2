@@ -10,3 +10,8 @@ Added Flask API to send data to frontend. </br>
 Restructured File directory to reflect two separate programs: app and backend. </br>
 Rewrote docker files and docker compose to facilitate two separate containers. </br>
 
+DIRECTIONS </br>
+to run: </br>
+>navigate to root </br>
+>run '$ docker compose up'</br>
+
