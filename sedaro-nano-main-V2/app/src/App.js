@@ -4,21 +4,19 @@ import Plot from 'react-plotly.js';
 /**
  * UPDATE
  * Wrapped parts of the code into functions to make it easier to read.
+ * Changed code to read from local API
  */
 
 const App = () => {
-  // Store plot data in state.
   const [plotData, setPlotData] = useState([]);
 
   useEffect(() => {
-    // fetch plot data when the component mounts
 
     async function fetchData() {
       console.log('calling fetchdata...');
 
       try {
-        // 'data.json' should be populated from a run of sim.py
-        const response = await fetch('data.json');
+        const response = await fetch("http://localhost:5000/")
         const data = await response.json();
         const updatedPlotData = {};
 

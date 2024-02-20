@@ -1,50 +1,9 @@
-# Sedaro Nano
+I made the backend code more object oriented and divided it into classes.
+I changed the data structure used in the QRangeStore class from a list to an Interval Binary Tree which was just a BST that used the lower bound of the interval of a given node to dictate the node's location in the tree.
+I did this to decrease the worst case runtime for the __setitem method from O(n) (technically O(1) taking into account amortization, but for the sake of this project I will assume that worst case runtim means that the array size must be doubled and all elements must be copied) with the original implementation to O(Log2n) with the BST solution. It also changes the __getitem method so that, instead of iterating through the list of ranges to values and checking if the given point is within the range of each element, we start at the root node of a BST of ranges to values. We check if the point is within the range of the BST node (lower bound <= point < upper bound), and if it is, we append that value to the returned list and move to the left child node and check the value of the right child node. If point < lower bound, we move to the left child node. If point >= upper bound, we move to the right child node. 
+I also made a few changes to clean up the code on the front end and make it more modular.
 
-The tiniest possible mockup of our system
+This implementation of Sedaro Nano shows the versatility of data storage solutions. While the original implementation used a list to store the ranges and corresponding values, this implementation uses what is effectively a binary search tree. The BST does not seem to speed up the program overall, however there is still more to take away from this project. We can see that when we switch the get and add methods (used in QRangeStore's __getItem and __setItem methods) from recursive to while loops, the program speeds up significantly. I believe that this is because using recursive calls overloads the call stack when navigating the BST. 
 
-## Goal
 
-The goal of this mini-project is to gain a better understanding of your ability to **be creative**, **think through problems**, and **solve relevant challenges** related to the engineering roles at Sedaro. This is an opportunity for you to show off your personal strengths. Don't focus on the simple contributions and instead aim to really impress us. To best set expectations, we won't be impressed by an ability to write boilerplate or copy and paste tutorials.  A submission that makes us say "Wow, that's SMART!" is far better than one that makes us say "This is really robust.". Get creative, the prompt is intentionally very open-ended.
-
-Within the next `7` days, attempt the following mini-project and return your solution containing the full project (less anything that would be .gitignored such as `node_modules`) and any notes on how to setup and run your specific solution. As important as your solution, we are interested in understanding your thought process and your ability to clearly communicate your approach so a writeup may also be included.
-
-Please note that if you end up getting to a solution that you aren't happy with or that is a dead end, document why and we will call that good enough. Please don't invest too much time. A writeup of why a solution is insufficient and how you might approach it differently often tells us what we need to know.
-
-If you have any questions or issues while you work through this problem or if you get stuck, please contact Bas Welsh at sebastian.welsh@sedarotech.com.
-
-## Setup
-
-1. Clone this repository.
-   - Please note that **only** cloning via HTTPS is supported
-   - Please **do not** commit changes to any branch of this repository. If you would like to use git, you may fork this repository to create a private repo of your own
-2. To compile and run the app, execute the following command
-   - ```docker compose up app```
-4. That's it ✅! Sedaro Nano should now be available via web browser at http://localhost:3000/. It may take a few moments for the container to fully come up and serve the page. Changes to the react app should auto reload the webpage.
-
-## Your Task
-
-**Review the few files that make up Sedaro Nano, figure out how it works, and then add to it in whatever way <u>best</u> shows off your unique skills + creativity!**
-
-### Some Project Ideas
-
-- Simulator:
-  - Improve the Q-Range KV Store data structure
-  - Make the system more generic/extensible
-  - Make it fast
-- Front End:
-  - Add cool visualizations and interactivity
-  - Improve efficiency/caching
-- Data:
-  - Utilize a better persistence layer than a js file
-  - Do some statistical analysis on the data
-  - Set up background jobs to preprocess data
-- Modeling & Simulation:
-  - Improve the numerical stability of the simulation functions
-  - Implement additional modeling and simulation scope
-  - Analyze the sensitivity to initial conditions
-- Etc:
-  - Port to a language of your choice
-  - Set up testing
-- Whatever you want; these are just suggestions to get you thinking
-
-![](./screenshot.png)
+WORKING ON UPDATES
