@@ -6,6 +6,6 @@ I also made a few changes to clean up the code on the front end and make it more
 This implementation of Sedaro Nano shows the versatility of data storage solutions. While the original implementation used a list to store the ranges and corresponding values, this implementation uses what is effectively a binary search tree. The BST does not seem to speed up the program overall, however there is still more to take away from this project. We can see that when we switch the get and add methods (used in QRangeStore's __getItem and __setItem methods) from recursive to while loops, the program speeds up significantly. I believe that this is because using recursive calls overloads the call stack when navigating the BST. 
 
 UPDATES 2/19/2024
---> Added Flask API to send data to frontend
---> Restructured File directory to reflect two separate programs between frontend and backend
---> Rewrote docker files and docker compose to facilitate two separate containers
+> Added Flask API to send data to frontend
+> Restructured File directory to reflect two separate programs between frontend and backend
+> Rewrote docker files and docker compose to facilitate two separate containers
